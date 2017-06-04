@@ -1,0 +1,77 @@
+AppBundle\Entity\Usuario:
+    type: entity
+    table: usuarios
+    indexes:
+        fk_usuarios_tipousaurio:
+            columns:
+                - tipousuario_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        dni:
+            type: string
+            nullable: true
+            length: 8
+            options:
+                fixed: false
+        apellido:
+            type: string
+            nullable: true
+            length: 100
+            options:
+                fixed: false
+        nombre:
+            type: string
+            nullable: true
+            length: 200
+            options:
+                fixed: false
+        username:
+            type: string
+            nullable: true
+            length: 100
+            options:
+                fixed: false
+        email:
+            type: string
+            nullable: true
+            length: 500
+            options:
+                fixed: false
+        telefono:
+            type: string
+            nullable: true
+            length: 20
+            options:
+                fixed: false
+        password:
+            type: string
+            nullable: true
+            length: 500
+            options:
+                fixed: false
+        fechacreate:
+            type: date
+            nullable: true
+        isactive:
+            type: boolean
+            nullable: true
+    manyToOne:
+        tipousuario:
+            targetEntity: Tipousuario
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                tipousuario_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

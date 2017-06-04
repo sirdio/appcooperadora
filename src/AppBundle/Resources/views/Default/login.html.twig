@@ -1,0 +1,150 @@
+{% extends '::base1.html.twig' %}
+{% block titel %}principal{% endblock %}
+{% block contenido %}
+	<div class="container-fluid"> 
+		<div class="row">
+			<div class="col-md-12">
+<nav class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+					</button> 
+				</div>
+				
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="active">
+							<a href="#">Consultar pedidos</a>
+						</li>
+						<li>
+							<a href="#">Ver Movimientos</a>
+						</li>
+					</ul>
+
+					{#<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="#">Link</a>
+						</li>
+						<li class="dropdown">
+							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="#">Action</a>
+								</li>
+								<li>
+									<a href="#">Another action</a>
+								</li>
+								<li>
+									<a href="#">Something else here</a>
+								</li>
+								<li class="divider">
+								</li>
+								<li>
+									<a href="#">Separated link</a>
+								</li>
+							</ul>
+						</li>
+					</ul>#}
+				</div>
+			</nav>
+
+
+				<div class="row">
+					<div class="col-md-8">
+						<div class="jumbotron">
+							<h2>
+								Hello, world!
+							</h2>
+							<p>
+								This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
+							</p>
+							{#<p>
+								<a class="btn btn-primary btn-large" href="#">Learn more</a>
+							</p>#}
+						</div>
+					</div>
+					<div class="col-md-4">
+						{% if error != null %}
+							<div class="alert alert-danger">
+								<p>
+									No pudo iniciar sesión debido a que su usuario o contraseña es incorrecto.
+								</p>
+							</div>
+						{% endif %} 
+						<form role="form" action={{path("login_check")}} method="post">
+							<div class="form-group">
+								 
+								<label for="username">Nombre de Usuario:</label>
+								<input class="form-control" id="username" type="text" name="_username">
+							</div>
+							<div class="form-group">
+								 
+								<label for="password">Contraseña:</label>
+								<input class="form-control" id="password" type="password" name="_password">
+							</div> 
+							<input type="submit" name="login" class="btn btn-default" value="Iniciar Sesión">
+							<input type="hidden" name="_target_path" value="/">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{#<script type="text/javascript">
+	$(document).ready(function(){    
+    $( "form" ).submit(function( event ) {
+         cadena = $("#sistema_usuariosbundle_empleadotype_Email").val();
+         resultado = cadena.indexOf("@");
+        if(resultado == -1) {
+            $( "#msjemail" ).text( "El Campo Correo debe poseer una dirección valida.!!" ).show().fadeOut( 7000);
+            event.preventDefault();           
+        }        
+        resultado2 = cadena.indexOf(".com");
+        if(resultado2 == -1) {
+            $( "#msjemail" ).text( "El Campo Correo debe poseer una dirección valida.!!" ).show().fadeOut( 7000);
+            event.preventDefault();           
+        }        
+        
+        if(val2 == 1) {
+            $( "#msjemail" ).text( "El Correo ya existe debe cambiar.!!" ).show().fadeOut( 7000);
+            event.preventDefault();           
+        }                
+        
+        if(val1 == 1){
+            $( "#msjun" ).text( "El nombre de usuario ya existe debe cambiar.!!" ).show().fadeOut( 7000);
+            event.preventDefault();  
+        }
+        pass1 = $("#sistema_usuariosbundle_empleadotype_password_first").val();
+        pass2 = $("#sistema_usuariosbundle_empleadotype_password_second").val();
+        if(pass1 != pass2) {
+            $( "#msjc" ).text( "Los campos contraseña deben coincidir.!!" ).show().fadeOut( 7000);
+            event.preventDefault();                
+        }
+        tipoUs = $("#sistema_usuariosbundle_empleadotype_tipou").val();
+        if(tipoUs == 1 || tipoUs == 2){
+            $( "#msjtu" ).text( "Los unicos tipos de usuarios aceptados son (Empleado o Administrado).!!" ).show().fadeOut( 7000);
+            event.preventDefault();  
+        }
+ 
+    
+    });
+    jQuery("#sistema_usuariosbundle_empleadotype_username").change(function() {
+            user = jQuery("#sistema_usuariosbundle_empleadotype_username").val();           
+            var url1 = '{{ path("gestion_consultar", {'name': 'name'}) }}'; 
+            url1 = url1.replace("name", user);
+            val1 = 0;
+            //alert(url1);
+            $('#msjerror2').load(url1);            
+    }); 
+    jQuery("#sistema_usuariosbundle_empleadotype_Email").change(function() {
+            correo = jQuery("#sistema_usuariosbundle_empleadotype_Email").val();           
+            var url2 = '{{ path("gestion_consultar1", {'email': 'email'}) }}'; 
+            url2 = url2.replace("email", correo);
+            val2 = 0;
+            //alert(url1);
+            $('#msjerror3').load(url2);            
+    });             
+});
+</script>#}
+

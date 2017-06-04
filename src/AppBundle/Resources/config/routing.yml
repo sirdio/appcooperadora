@@ -1,0 +1,32 @@
+login:
+  path: /login
+  defaults: { _controller: AppBundle:Usuario:Login}
+
+login_check:
+  path: login_check
+
+logout:
+  path: /logout  
+
+usuarios_homepage:
+  path: /
+  defaults: { _controller: AppBundle:Usuario:Principal}
+
+usuario_tesorero:
+  path: /tesorero
+  defaults: {_controller: AppBundle:Usuario:PrincipalTesorero}
+
+usuario_gestion:
+  path: /tesorero/gestionusuarios
+  defaults: {_controller: AppBundle:Usuario:GestionU}
+##usaurio_sociob:
+##  path: /sociob
+##  defaults: {_controller: AppBundle:Usuario:PrincipalSocioB}
+
+##usuario_sociop:
+##  path: /sociop
+##  defaults: {_controller: AppBundle:Usuario:PrincipalSocioP}
+  
+##suario_administrador:
+##  path: /admin
+##  defaults: {_controller: AppBundle:Usuario:PrincipalAdministrador}

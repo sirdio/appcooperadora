@@ -1,0 +1,76 @@
+AppBundle\Entity\Operacion:
+    type: entity
+    table: operaciones
+    indexes:
+        fk_operaciones_usuario:
+            columns:
+                - usuario_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        fecha:
+            type: date
+            nullable: true
+        descripcion:
+            type: string
+            nullable: true
+            length: 500
+            options:
+                fixed: false
+        solicitante:
+            type: string
+            nullable: true
+            length: 500
+            options:
+                fixed: false
+        proveedor:
+            type: string
+            nullable: true
+            length: 200
+            options:
+                fixed: false
+        documentonro:
+            type: string
+            nullable: true
+            length: 500
+            options:
+                fixed: false
+        otorgado:
+            type: string
+            nullable: true
+            length: 20
+            options:
+                fixed: false
+        tipooperacion:
+            type: string
+            nullable: true
+            length: 10
+            options:
+                fixed: false
+        importe:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 2
+        estadoasiento:
+            type: boolean
+            nullable: true
+    manyToOne:
+        usuario:
+            targetEntity: Usuarios
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                usuario_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
