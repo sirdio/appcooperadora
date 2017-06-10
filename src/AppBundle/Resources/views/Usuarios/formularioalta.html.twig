@@ -1,0 +1,149 @@
+{% extends '::base1.html.twig' %}
+{% block titel %}Gestión de Usuarios{% endblock %}
+{% block contenido %}
+	<div class="container-fluid"> 
+		<div class="row">
+			<div class="col-md-12">
+			<nav class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+					</button> 
+				</div>
+				
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href={{path('usuario_gestion')}}>Volver</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+
+
+
+			</div>
+		</div>
+
+	<div class="row">
+		<div class="col-md-4">
+			{# <div class="jumbotron">
+            	<h2>
+                    Hello, Tesorero
+                </h2>
+                <p>
+                   This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
+                </p>
+                {#<p>
+                     <a class="btn btn-primary btn-large" href="#">Learn more</a>
+                  </p>
+             </div>#}
+		</div>
+		<div class="col-md-4">
+		
+				<form role="form" action="{{ path('usuario_alta')}}" method="post" >
+					<fieldset>
+						<legend>Alta de Usuarios</legend>
+
+						{% for message in app.session.flashbag().get('status') %}
+							<div class="alert alert-success">{{message}}</div>
+						{% endfor %}
+
+						{{form_errors(form)}}
+						<div class="form-group">
+							{{form_label(form.dni, 'D.N.I.:')}}
+                			{{form_errors(form.dni)}}  
+                			{{form_widget(form.dni)}}
+                			<div id="msjerror5"></div>
+						</div>
+						<div class="form-group">	
+							{{form_label(form.apellido, 'Apellido:')}}
+	                		{{form_errors(form.apellido)}}  
+	                		{{form_widget(form.apellido)}}
+						</div>
+						<div class="form-group">
+							{{form_label(form.nombre, 'Nombre:')}}
+	                		{{form_errors(form.nombre)}}  
+	                		{{form_widget(form.nombre)}}
+						</div>
+						<div class="form-group">
+							{{form_label(form.username, 'Nombre de usuario:')}}
+	                		{{form_errors(form.username)}}  
+	                		{{form_widget(form.username)}}	
+	                		<div id="msjerror3"></div>
+						</div>
+						<div class="form-group">
+							{{form_label(form.email, 'Email:')}}
+	                		{{form_errors(form.email)}}  
+	                		{{form_widget(form.email)}}
+	                		<div id="msjerror4"></div>
+						</div>
+						<div class="form-group">
+							{{form_label(form.telefono, 'Teléfono:')}}
+	                		{{form_errors(form.telefono)}}  
+	                		{{form_widget(form.telefono)}}   
+						</div>
+						<div class="form-group">
+							{{form_label(form.password, 'Contraseña:')}}
+	                		{{form_errors(form.password)}}  
+	                		{{form_widget(form.password)}}         
+						</div>
+						{#<div class="form-group">
+							{{form_label(form.fechacreate, 'Fecha:')}}
+	                		{{form_errors(form.fechacreate)}}  
+	                		{{form_widget(form.fechacreate)}} 
+						</div>#}
+						<div class="form-group">
+							{{form_label(form.tipousuario, 'Tipo de Usuario:')}}
+	                		{{form_errors(form.tipousuario)}}  
+	                		{{form_widget(form.tipousuario)}} 
+						</div>						
+						<div class="form-group">
+                			{{form_rest(form)}}
+                		</div>
+                	</fieldset>
+				</form>		       		                      				
+		</div>
+		<div class="col-md-4">
+			{# <div class="jumbotron">
+            	<h2>
+                    Hello, Tesorero
+                </h2>
+                <p>
+                   This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
+                </p>
+                {#<p>
+                     <a class="btn btn-primary btn-large" href="#">Learn more</a>
+                  </p>
+             </div>#}
+		</div>
+	</div>
+
+
+	</div>
+{% endblock %}
+{% block script %}
+	<script src={{asset('public/js/scripts.js')}}></script>
+<script type="text/javascript">
+	$(document).ready(function(){   
+	    jQuery(".form_username").change(function() {
+	            usern = jQuery(".form_username").val();           
+				var url2 = "{{ path('usuario_consulta', {'name': 'name'}) }}"; 
+	            url2 = url2.replace("name", usern);
+	            $('#msjerror3').load(url2);                    
+	    });   
+	    jQuery(".form_email").change(function() {
+	            correo = jQuery(".form_email").val();           
+				var url2 = "{{ path('usuario_consultae', {'correo': 'correo'}) }}"; 
+	            url2 = url2.replace("correo", correo);
+	            $('#msjerror4').load(url2);                    
+	    });    	
+	    jQuery(".form_dni").change(function() {
+	            docu = jQuery(".form_dni").val();           
+				var url2 = "{{ path('usuario_consultadni', {'dni': 'dni'}) }}"; 
+	            url2 = url2.replace("dni", docu);
+	            $('#msjerror5').load(url2);                    
+	    });	    
+	});
+</script>
+{% endblock %}

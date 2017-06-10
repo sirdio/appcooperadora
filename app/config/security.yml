@@ -38,7 +38,7 @@ security:
     access_control:
         - {path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - {path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY}
-        - {path: ^/tesorero, roles: ROLE_TESORERO}
+        - {path: ^/admnistrador, roles: ROLE_ADMIN}
         ##- {path: ^/sociop, roles: ROLE_SOCIOP}
         ##- {path: ^/asesor, roles: ROLE_ASESOR}
         ##- {path: ^/admin, roles: ROLE_ADMIN}

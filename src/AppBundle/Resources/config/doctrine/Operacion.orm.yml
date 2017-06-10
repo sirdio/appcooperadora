@@ -64,7 +64,7 @@ AppBundle\Entity\Operacion:
             nullable: true
     manyToOne:
         usuario:
-            targetEntity: Usuarios
+            targetEntity: Usuario
             cascade: {  }
             fetch: LAZY
             mappedBy: null

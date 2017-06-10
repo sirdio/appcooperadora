@@ -1,0 +1,225 @@
+{% extends '::base1.html.twig' %}
+{% block titel %}Gestión de Usuarios{% endblock %}
+{% block contenido %}
+	<div class="container-fluid"> 
+		<div class="row">
+			<div class="col-md-12">
+			<nav class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+					</button> 
+				</div>
+				
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href={{path('usuario_gestion')}}>Volver</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+
+
+
+			</div>
+		</div>
+
+	<div class="row">
+		<div class="col-md-4">
+			{# <div class="jumbotron">
+            	<h2>
+                    Hello, Tesorero
+                </h2>
+                <p>
+                   This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
+                </p>
+                {#<p>
+                     <a class="btn btn-primary btn-large" href="#">Learn more</a>
+                  </p>
+             </div>#}
+		</div>
+		<div class="col-md-4">
+				<form role="form" action="{{ path('operacion_registro',{'usn':app.user.username})}}" method="post" >
+					<fieldset>
+						<legend>Registrar Movimientos</legend>
+
+						{% for message in app.session.flashbag().get('status') %}
+							<div class="alert alert-info">{{message}}</div>
+						{% endfor %}
+						{{form_errors(form)}}
+						<div class="form-group">
+							{{form_label(form.fecha, 'Fecha:')}}
+                			{{form_errors(form.fecha)}}  
+                			{{form_widget(form.fecha)}}
+                			{#<div id="msjerror1"></div>#}
+						</div>
+						<div class="form-group">	
+							{{form_label(form.descripcion, 'Descripcion:')}}
+	                		{{form_errors(form.descripcion)}}  
+	                		{{form_widget(form.descripcion)}}
+	                		<div id="msjerror2"></div>
+						</div>
+						<div class="form-group">
+							{{form_label(form.solicitante, 'Solicitante:')}}
+	                		{{form_errors(form.solicitante)}}  
+	                		{{form_widget(form.solicitante)}}
+	                		<div id="msjerror3"></div>
+						</div>
+						<div class="form-group">
+							{{form_label(form.proveedor, 'Proveedor:')}}
+	                		{{form_errors(form.proveedor)}}  
+	                		{{form_widget(form.proveedor)}}	
+	                		<div id="msjerror4"></div>
+						</div>
+						<div class="form-group">
+							{{form_label(form.documentonro, 'Documento otrogado o generado:')}}
+	                		{{form_errors(form.documentonro)}}  
+	                		{{form_widget(form.documentonro)}}
+	                		<div id="msjerror5"></div>
+						</div>
+						<div class="form-group">
+							{{form_label(form.otorgado, 'Otorgado por:')}}
+	                		{{form_errors(form.otorgado)}}  
+	                		{{form_widget(form.otorgado)}}
+	                		<div id="msjerror6"></div>   
+						</div>
+						<div class="form-group">
+							{{form_label(form.tipooperacion, 'Tipo de Operación:')}}
+	                		{{form_errors(form.tipooperacion)}}  
+	                		{{form_widget(form.tipooperacion)}}         
+	                		<div id="msjerror7"></div>
+						</div>
+						<div class="form-group">
+							{{form_label(form.importe, 'Importe:')}}
+	                		{{form_errors(form.importe)}}  
+	                		{{form_widget(form.importe)}}
+	                		<div id="msjerror8"></div> 
+						</div>						
+						<div class="form-group">
+                			{{form_rest(form)}}
+                		</div>
+                	</fieldset>
+				</form>		       		                      				
+		</div>
+		<div class="col-md-4">
+			{# <div class="jumbotron">
+            	<h2>
+                    Hello, Tesorero
+                </h2>
+                <p>
+                   This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
+                </p>
+                {#<p>
+                     <a class="btn btn-primary btn-large" href="#">Learn more</a>
+                  </p>
+             </div>#}
+		</div>
+	</div>
+
+
+	</div>
+{% endblock %}
+{% block script %}
+	<script src={{asset('public/js/scripts.js')}}></script>
+<script type="text/javascript">
+	$(document).ready(function(){   
+		var $desc = $(".form_descrip");
+		var $solic = $(".form_solic");
+		var $prov = $(".form_proveedor");
+		var $docu = $(".form_documento");
+		var $otorg = $(".form_otorgado");
+		var $operacion = $(".form_operacion");
+		function longitudDesc() {
+			var longitud = $desc.val();
+			if (longitud.length > 500) {
+				var $msjb2 = $("#msjb2");
+				$msjb2.remove();
+				var elem = $('<div/>', { 'class': 'alert alert-danger', 'id': 'msjb2' });
+				elem.text("supero la cantidad de caracteres.");
+				$('#msjerror2').append(elem);
+				return false;
+			}
+			var $msjb2 = $("#msjb2");
+			$msjb2.remove();
+		}
+		function longitudSolic() {
+			var longitud = $solic.val();
+			if (longitud.length > 500) {
+				var $msjb3 = $("#msjb3");
+				$msjb3.remove();
+				var elem = $('<div/>', { 'class': 'alert alert-danger', 'id': 'msjb3' });
+				elem.text("supero la cantidad de caracteres.");
+				$('#msjerror3').append(elem);
+				return false;
+			}
+			var $msjb3 = $("#msjb3");
+			$msjb3.remove();
+		}	    	    	  
+		function longitudProveedor() {
+			var longitud = $prov.val();
+			if (longitud.length > 500) {
+				var $msjb4 = $("#msjb4");
+				$msjb4.remove();
+				var elem = $('<div/>', { 'class': 'alert alert-danger', 'id': 'msjb4' });
+				elem.text("supero la cantidad de caracteres.");
+				$('#msjerror4').append(elem);
+				return false;
+			}
+			var $msjb4 = $("#msjb4");
+			$msjb4.remove();
+		}
+		function longitudDocumento() {
+			var longitud = $docu.val();
+			if (longitud.length > 200) {
+				var $msjb5 = $("#msjb5");
+				$msjb5.remove();
+				var elem = $('<div/>', { 'class': 'alert alert-danger', 'id': 'msjb5' });
+				elem.text("supero la cantidad de caracteres.");
+				$('#msjerror5').append(elem);
+				return false;
+			}
+			var $msjb5 = $("#msjb5");
+			$msjb5.remove();
+		}
+		function selecOtorgado() {
+			if ($otorg.val() == 'opcion') {
+				var $msjb6 = $("#msjb6");
+				$msjb6.remove();
+				var elem = $('<div/>', { 'class': 'alert alert-danger', 'id': 'msjb6' });
+				elem.text("Debe selecionar una opción.");
+				$('#msjerror6').append(elem);
+				return false;
+			}
+			var $msjb6 = $("#msjb6");
+			$msjb6.remove();
+		}
+		function selecOperacion() {
+			if ($operacion.val() == 'opcion') {
+				var $msjb7 = $("#msjb7");
+				$msjb7.remove();
+				var elem = $('<div/>', { 'class': 'alert alert-danger', 'id': 'msjb7' });
+				elem.text("Debe selecionar una opción.");
+				$('#msjerror7').append(elem);
+				return false;
+			}
+			var $msjb7 = $("#msjb7");
+			$msjb7.remove();
+		}		
+		$desc.on('change', longitudDesc);
+		$solic.on('change', longitudSolic);
+  		$prov.on('change', longitudProveedor);
+  		$docu.on('change', longitudDocumento);
+  		$otorg.on('click', selecOtorgado);
+  		$operacion.on('click', selecOperacion);
+  		$otorg.on('change', selecOtorgado);
+  		$operacion.on('change', selecOperacion);  		
+
+
+
+
+
+
+	});
+</script>
+{% endblock %}

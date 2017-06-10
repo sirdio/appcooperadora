@@ -1,0 +1,25 @@
+##AppBundle\Entity\Usuario:
+##  properties:
+##    dni:
+##      -NotBlank: {message: "El Campo D.N.I. no puede estar en vacio."}
+##      -Type:
+##        type: digit
+##        message: "Debe ingresar número solamente."
+##    apellido:
+##      -NotBlank: {message: "El Campo Apellido no puede estar en vacio."}
+##    nombre:
+##      -NotBlank: {message: "El Campo Nombre no puede estar en vacio."}
+##    username:
+##      -NotBlank: {message: "El Campo Nombre de usuario no puede estar en vacio."}
+##    email:
+##      -NotBlank: {message: "El Campo Email no puede estar en vacio."}
+##    telefono:
+##      -NotBlank: {message: "El Campo teléfono no puede estar en vacio."}      
+##      -Length:
+##        min: 10
+##        minMessage: "La longitud del campo teléfono no debe ser menor a 10 dígitos."
+##    password:
+##      -NotBlank: {message: "El Campo Contraseña no puede estar en vacio."}      
+##      -Length:
+##        min: 5
+##        minMessage: "La longitud de la contraseña no debe ser mayor de 5 caracteres."

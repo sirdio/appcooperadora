@@ -13,11 +13,11 @@ usuarios_homepage:
   defaults: { _controller: AppBundle:Usuario:Principal}
 
 usuario_tesorero:
-  path: /tesorero
+  path: /administrador
   defaults: {_controller: AppBundle:Usuario:PrincipalTesorero}
 
 usuario_gestion:
-  path: /tesorero/gestionusuarios
+  path: /administrador/gestionusuarios
   defaults: {_controller: AppBundle:Usuario:GestionU}
 ##usaurio_sociob:
 ##  path: /sociob
@@ -30,3 +30,27 @@ usuario_gestion:
 ##suario_administrador:
 ##  path: /admin
 ##  defaults: {_controller: AppBundle:Usuario:PrincipalAdministrador}
+
+usuario_alta:
+  path: /administrador/altauduario
+  defaults: {_controller: AppBundle:Usuario:FormularioAlta}
+
+usuario_consulta:
+  path: /administrador/consultarnombreusuario/{name}
+  defaults: {_controller: AppBundle:Usuario:ConsultarUserName}
+
+usuario_consultae:
+  path: /administrador/consultaremail/{correo}
+  defaults: {_controller: AppBundle:Usuario:ConsultarEmail}
+
+usuario_consultadni:
+  path: /administrador/consultardocumento/{dni}
+  defaults: {_controller: AppBundle:Usuario:ConsultarDni}
+
+operacion_registro:
+  path: /administrador/registraroperaciones/{usn}
+  defaults: {_controller: AppBundle:Operacion:FormularioOperacion}
+
+operacion_reporte:
+  path: /administrador/reporte
+  defaults: {_controller: AppBundle:Operacion:ReportePDF}

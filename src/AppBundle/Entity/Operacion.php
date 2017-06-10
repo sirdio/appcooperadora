@@ -62,6 +62,10 @@ class Operacion
      */
     private $usuario;
 
+    public function __construct()
+    {
+        $this->estadoasiento = true;
+    } 
 
     /**
      * Get id
