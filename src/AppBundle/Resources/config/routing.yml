@@ -16,9 +16,20 @@ usuario_tesorero:
   path: /administrador
   defaults: {_controller: AppBundle:Usuario:PrincipalTesorero}
 
+usuario_principala:
+  path: /administrador/inicio
+  defaults: {_controller: AppBundle:Usuario:PrincipalA}
+
+usuario_principalu:
+  path: /usuario/inicio
+  defaults: {_controller: AppBundle:Usuario:PrincipalU}
+
+
 usuario_gestion:
   path: /administrador/gestionusuarios
   defaults: {_controller: AppBundle:Usuario:GestionU}
+
+
 ##usaurio_sociob:
 ##  path: /sociob
 ##  defaults: {_controller: AppBundle:Usuario:PrincipalSocioB}
@@ -54,3 +65,39 @@ operacion_registro:
 operacion_reporte:
   path: /administrador/reporte
   defaults: {_controller: AppBundle:Operacion:ReportePDF}
+
+##operacion_prueba:
+##  path: /administrador/reporteprueba/{name}
+##  defaults: {_controller: AppBundle:Operacion:hello}
+
+
+##_pdf_using_facade_directly:
+##  path: /administrador/reporteprueba
+##  defaults: { _controller: AppBundle:Operacion:Reporte }
+
+reporte_generara:
+  path: /administrador/reporteporfecha
+  defaults: { _controller: AppBundle:Operacion:RepoInicio}  
+
+operacion_Reportexf:
+  path: /administrador/consulta
+  defaults: {_controller: AppBundle:Operacion:ConsultarOperaciones}
+
+###########################################################
+######################rutas usuario########################
+###########################################################
+operacion_registrou:
+  path: /usuario/registraroperaciones/{usn}
+  defaults: {_controller: AppBundle:Operacion:FormularioOperacion}
+
+##_pdf_using_facade_directlyu:
+##  path: /usuario/reporteprueba
+##  defaults: { _controller: AppBundle:Operacion:Reporte }
+
+reporte_generaru:
+  path: /usuario/reporteporfecha
+  defaults: { _controller: AppBundle:Operacion:RepoInicio}
+
+operacion_Reportexfu:
+  path: /usuario/consulta
+  defaults: {_controller: AppBundle:Operacion:ConsultarOperaciones}

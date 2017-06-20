@@ -18,6 +18,7 @@ AppBundle\Entity\Operacion:
         fecha:
             type: date
             nullable: true
+            ##length: 10
         descripcion:
             type: string
             nullable: true

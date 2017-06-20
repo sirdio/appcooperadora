@@ -14,16 +14,13 @@
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						<li>
-							<a href={{path('usuario_gestion')}}>Usuario</a>
+							<a href={{path('operacion_registrou',{'usn':app.user.username})}}>Registrar Movientos</a>
 						</li>
 						<li>
-							<a href={{path('operacion_registro',{'usn':app.user.username})}}>Registrar Movientos</a>
-						</li>
-                        <li>
-                            <a href={{path('reporte_generara')}}>Generar Reporte</a>
-                        </li>                        
+                            <a href={{path('reporte_generaru')}}>Generar Reporte</a>
+                        </li>
                         {#<li>
-                            <a href={{path('_pdf_using_facade_directly')}}>Ver Reporte</a>
+                            <a href={{path('_pdf_using_facade_directlyu')}}>Ver Reporte</a>
                         </li>#}
 					</ul>
 
@@ -38,7 +35,7 @@
                     <div class="col-md-12">
                         <div class="jumbotron">
                             <h2>
-                                 Bienvenido, {{app.user.tipousuario.name}}!
+                                 Bienvenido, {{app.user.tipousuario.name}}! 
                             </h2>
                             {#<p>
                                 Desde estas funciones podrá crear nuevos usuarios y modificar las datos de los ya existentes.

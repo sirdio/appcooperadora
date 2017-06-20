@@ -2,17 +2,21 @@
 
 namespace AppBundle\Controller;
 
+
 use Symfony\Component\ClassLoader\ClassMapGenerator;
 //use AppBundle\fpdf\fpdf;
 use AppBundle\Entity\Usuario;
 use AppBundle\Form\UsuarioType;
 use AppBundle\Entity\Operacion;
 use AppBundle\Form\OperacionType;
+use AppBundle\Repository\OperacionRepository;
 use Symfony\Component\Core\Authorization\AuthorizationChecker;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Ps\PdfBundle\Annotation\Pdf;
+use Symfony\Component\HttpFoundation\Response;
 class OperacionController extends Controller
 {
     private $sesion;
@@ -44,9 +48,10 @@ class OperacionController extends Controller
                 if ($estadodesc == false and $estadosolic == false and $estadoprove == false and $estadodoc == false and $estadoseleco == false and $estadoselecto == false) {
                     $operacion = new Operacion();
                     $fechac =  $form->get("fecha")->getData();
-                    //var_dump($fechac);
+                    //$objeto_DateTime = date_format($fechac, 'Y-m-d');
+                    //print_r($fechac);
+                    //var_dump($objeto_DateTime);
                     //die();
-                    //$objeto_DateTime = date_create_from_format('Y-m-d', $fechac);
                     $operacion->setFecha($fechac);
                     $operacion->setDescripcion($form->get("descripcion")->getData());
                     $operacion->setSolicitante($form->get("solicitante")->getData());
@@ -97,12 +102,78 @@ class OperacionController extends Controller
         }
         return $estado; 
     }
-    public function ReportePDFAction(Request $request)
+
+    /**
+    * @Pdf()
+    */
+    //,$name
+   /* public function ReporteAction(Request $request)
     {
-        var_dump(ClassMapGenerator::createMap(__DIR__.'/../fpdf/fpdf'));
+        $em = $this->getDoctrine()->getManager();
+        $operacion_repo = $em->getRepository('AppBundle:Operacion');
+        $operaciones = $operacion_repo->findAll();
+        $facade = $this->get('ps_pdf.facade');
+        $response = new Response();
+        $this->render('PsPdfBundle:Example:reporteUsuarios.pdf.twig', array('operaciones'=> $operaciones), $response);
+        
+        $xml = $response->getContent();
+        
+        $content = $facade->render($xml);
+        
+        return new Response($content, 200, array('content-type' => 'application/pdf'));
+    }*/
+    public function RepoInicioAction()
+    {
+        return $this->render('AppBundle:Reportes:reportexfecha.html.twig');
+    }
 
-
-        //$pdf = new FPDF();
-        die();
+    public function ConsultarOperacionesAction(Request $request)
+    {
+        $desdefecha = explode("-",$request->get("fechadesde"));
+        $hastafecha = explode("-",$request->get("fechahasta"));
+        $desdef = $desdefecha[2]."-".$desdefecha[1]."-".$desdefecha[0];
+        $hastaf = $hastafecha[2]."-".$hastafecha[1]."-".$hastafecha[0];
+        $em = $this->getDoctrine()->getEntityManager();
+        $db = $em->getConnection();
+        $query = "SELECT * FROM operaciones WHERE fecha <"."'".$desdef."'";
+        $stmt = $db->prepare($query);
+        $params = array();
+        $stmt->execute($params);
+        $reportepre = $stmt->fetchAll();
+        $saldoanterior = 0;
+        if (count($reportepre) != 0) {
+            foreach ($reportepre as $reportepre) {
+                $saldoanterior = $saldoanterior + $reportepre['importe'];
+            }
+        } 
+        $query = "SELECT * FROM operaciones WHERE fecha BETWEEN "."'".$desdef."'"." AND "."'".$hastaf."'";
+        $stmt = $db->prepare($query);
+        $params = array();
+        $stmt->execute($params);
+        $reportexf = $stmt->fetchAll();
+        if (count($reportexf) < 11) {
+            $facade = $this->get('ps_pdf.facade');
+            $response = new Response();
+            $this->render('PsPdfBundle:Example:reporteoperaciones1.pdf.twig', 
+                array('reportexf'=> $reportexf, 'saldoanterior'=>$saldoanterior,
+                    'desdef'=>$desdef, 'hastaf'=>$hastaf
+                    ), $response);
+            $xml = $response->getContent();
+            $content = $facade->render($xml);
+            return new Response($content, 200, array('content-type' => 'application/pdf'));            
+        } else {
+            $contreg = count($reportexf);
+            $partent = intval(count($reportexf)/10);
+            $partent = $partent + 1;
+            $facade = $this->get('ps_pdf.facade');
+            $response = new Response();
+            $this->render('PsPdfBundle:Example:reporteoperaciones2.pdf.twig', 
+                array('reportexf'=> $reportexf, 'saldoanterior'=>$saldoanterior,
+                    'desdef'=>$desdef, 'hastaf'=>$hastaf, 'contreg' =>$contreg, 'partent'=>$partent
+                    ), $response);
+            $xml = $response->getContent();
+            $content = $facade->render($xml);
+            return new Response($content, 200, array('content-type' => 'application/pdf'));                        
+        }            
     }
 }

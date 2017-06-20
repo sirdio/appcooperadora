@@ -35,13 +35,23 @@ class UsuarioController extends Controller
     {
         if ($this->get("security.authorization_checker")->isGranted("ROLE_ADMIN")) {
             return $this->render('AppBundle:Tesorero:principalt.html.twig');
-        }/*elseif ($this->get("security.authorization_checker")->isGranted("ROLE_SOCIOB")) {
-            return $this->render('AppBundle:Sociob:principalsb.html.twig');
-        }elseif ($this->get("security.authorization_checker")->isGranted("ROLE_SOCIOP")) {
+        }elseif ($this->get("security.authorization_checker")->isGranted("ROLE_USER")) {
+            return $this->render('AppBundle:User:principalu.html.twig');
+        }/*elseif ($this->get("security.authorization_checker")->isGranted("ROLE_SOCIOP")) {
             return $this->render('AppBundle:Sociop:principalsp.html.twig');
         }elseif ($this->get("security.authorization_checker")->isGranted("ROLE_ADMIN")) {
             return $this->render('AppBundle:Administrador:principaladmin.html.twig');
         }*/
+    }
+
+    public function PrincipalAAction(Request $request)
+    {
+        return $this->render('AppBundle:Tesorero:principalt.html.twig');
+    }
+
+    public function PrincipalUAction(Request $request)
+    {
+        return $this->render('AppBundle:User:principalu.html.twig');
     }
 
     public function GestionUAction(Request $request)
@@ -49,20 +59,6 @@ class UsuarioController extends Controller
         return $this->render('AppBundle:Usuarios:gestionusuarios.html.twig');
     }
 
- /*   public function PrincipalSocioBAction(Request $request)
-    {
-        print_r("expression");
-    }
-
-    public function PrincipalSocioPAction(Request $request)
-    {
-        print_r("expression");
-    }
-
-    public function PrincipalAdministradorAction(Request $request)
-    {
-        print_r("expression");
-    }*/
 
     public function FormularioAltaAction(Request $request)
     {

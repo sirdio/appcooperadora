@@ -39,6 +39,7 @@ security:
         - {path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - {path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - {path: ^/admnistrador, roles: ROLE_ADMIN}
+        - {path: ^/usuario, roles: ROLE_USER}
         ##- {path: ^/sociop, roles: ROLE_SOCIOP}
         ##- {path: ^/asesor, roles: ROLE_ASESOR}
         ##- {path: ^/admin, roles: ROLE_ADMIN}

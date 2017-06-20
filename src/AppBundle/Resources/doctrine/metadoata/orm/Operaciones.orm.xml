@@ -7,7 +7,7 @@
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="fecha" type="date" column="fecha" nullable="true"/>
+    <field name="fecha" type="string" column="fecha" length="10" nullable="true"/>
     <field name="descripcion" type="string" column="descripcion" length="500" nullable="true">
       <options>
         <option name="fixed"/>
