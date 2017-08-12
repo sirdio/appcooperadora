@@ -176,4 +176,61 @@ class OperacionController extends Controller
             return new Response($content, 200, array('content-type' => 'application/pdf'));                        
         }            
     }
+
+    public function VerXmlAction()
+    {
+        if (file_exists('C:\xampp\htdocs\appcooperadora\web\public\xml\resultado4xml.xml')) {
+            if(!$xml = simplexml_load_file('C:\xampp\htdocs\appcooperadora\web\public\xml\resultado4xml.xml')){
+                $status = "No se ha podido cargar el archivo";
+                $estado = 0;
+            } else {
+                $status = "Datos Procesados";
+                $estado = 1;
+                unlink('C:\xampp\htdocs\appcooperadora\web\public\xml\resultado4xml.xml');
+                foreach ($xml as $registro){
+                    $estCarga = $this->getCargarMovimientoXml($registro->userid, $registro->fecha, $registro->descripcion, $registro->solicitante, $registro->proveedor, $registro->documentonro, $registro->otorgado, $registro->tipooperacion, $registro->importe);
+                }
+            }            
+        }else{
+            $status = "El archivo XML no existe";
+            $estado = 0;
+            $xml = 0;
+        }
+
+        $this->sesion->getFlashBag()->add("status", $status);
+        return $this->render('AppBundle:archxml:procesoxml.html.twig',
+            array('xml' => $xml, 'estado'=>$estado));
+    }
+
+    public function getCargarMovimientoXml($userid, $fecha, $descripcion, $solicitante, $proveedor, $documentonro, $otorgado, $tipooperacion, $importe)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $usuario_repo = $em->getRepository('AppBundle:Usuario');
+        $usuario = $usuario_repo->findOneBy(array("id" => $userid));
+        $operacion = new Operacion();
+        $objeto_DateTime = date_create($fecha);
+        $operacion->setFecha($objeto_DateTime);
+        $operacion->setDescripcion($descripcion);
+        $operacion->setSolicitante($solicitante);
+        $operacion->setProveedor($proveedor);
+        $operacion->setDocumentonro($documentonro);
+        $operacion->setOtorgado($otorgado);
+        $operacion->setTipooperacion($tipooperacion);
+        $operacion->setImporte($importe);
+        $operacion->setEstadoasiento(1);
+        $operacion->setUsuario($usuario);     
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($operacion);
+        $flush = $em->flush();
+        if ($flush == null) {
+            $estCarga = true;  
+        } else {
+            $estCarga = false;
+        }  
+        return $estCarga;
+    }
+
+
+
+
 }

@@ -1,0 +1,88 @@
+{% extends '::base1.html.twig' %}
+{% block titel %}Procesar xml{% endblock %}
+{% block contenido %}
+    <div class="container-fluid"> 
+        <div class="row">
+            <div class="col-md-12">
+            <nav class="navbar navbar-inverse" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                         <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                    </button> 
+                </div>
+                
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            {% if app.user.tipousuario.name == "administrador" %}
+                                <a href={{path('usuario_principala')}}>Volver</a>                            
+                            {% endif %}                             
+                            
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+
+
+            </div>
+        </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            {% for message in app.session.flashbag().get('status') %}
+                <div class="alert alert-info">{{message}}</div>
+            {% endfor %}
+        <div class="col-md-4">
+                {% if estado == 1 %}
+                {% set contador = 0 %}    
+                <table class="table table-responsive">
+                        <thead class="thead thead-inverse">
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th class="text-center">Fecha</th>
+                                <th class="text-center">Descripción</th>
+                                <th class="text-center">Solicitante</th>
+                                <th class="text-center">Proveedor</th>
+                                <th class="text-center">Documento Nro.</th>
+                                <th class="text-center">Otorgado por</th>
+                                <th class="text-center">Ingreso</th>
+                                <th class="text-center">Egreso</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for xml1 in xml %}
+                            {% set contador = contador + 1 %}    
+                            <tr>
+                                <th scope="row" class="text-center">{{contador}}</th>
+                                <th class="text-center">{{xml1.fecha|date("d/m/Y")}}</td>
+                                <td>{{xml1.descripcion}}</td>
+                                <td>{{xml1.solicitante}}</td>
+                                <td>{{xml1.proveedor}}</td>
+                                <td>{{xml1.documentonro}}</td>
+                                <td>{{xml1.otorgado}}</td>
+                                {% if xml1.tipooperacion == 'ingreso' %}
+                                    <td class="text-primary text-center">${{xml1.importe|number_format(2)}}</td>
+                                    <td class="text-center">-</td>
+                                {% endif %}
+                                {% if xml1.tipooperacion == 'egreso' %}
+                                    <td class="text-center">-</td>
+                                    <td class="text-danger text-center">${{xml1.importe|number_format(2)}}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                </table> 
+                {% endif %}       
+        </div>
+        <div class="col-md-4">  
+
+        </div>
+        <div class="col-md-4">
+
+        </div>
+    </div>
+
+
+    </div>
+{% endblock %}

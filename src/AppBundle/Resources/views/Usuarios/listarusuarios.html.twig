@@ -1,0 +1,76 @@
+{% extends '::base1.html.twig' %}
+{% block titel %}Listar Usuarios{% endblock %}
+{% block contenido %}
+    <div class="container-fluid"> 
+        <div class="row">
+            <div class="col-md-12">
+            <nav class="navbar navbar-inverse" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                         <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                    </button> 
+                </div>
+                
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            {% if app.user.tipousuario.name == "administrador" %}
+                                <a href={{path('usuario_gestion')}}>Volver</a>                            
+                            {% endif %}                             
+                            
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+
+
+            </div>
+        </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            {% for message in app.session.flashbag().get('status') %}
+                <div class="alert alert-info">{{message}}</div>
+            {% endfor %}
+        <div class="col-md-8">
+                {% if usuario != null %}  
+                <table class="table table-responsive">
+                        <thead class="thead thead-inverse">
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th class="text-center">D.N.I.</th>
+                                <th class="text-center">Apellido</th>
+                                <th class="text-center">Nombre</th>
+                                <th class="text-center">Nombre de Usuario</th>
+                                <th class="text-center">Email</th>
+                                <th class="text-center">Tipo de Usuario</th>
+                                <th class="text-center">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in usuario %}
+                            <tr>
+                                <th scope="row" class="text-center">{{user.id}}</th>
+                                <th class="text-center">{{user.dni}}</td>
+                                <td class="text-center">{{user.apellido}}</td>
+                                <td class="text-center">{{user.nombre}}</td>
+                                <td class="text-center">{{user.username}}</td>
+                                <td class="text-center">{{user.email}}</td>
+                                <td class="text-center">{{user.tipousuario.name}}</td>                                
+                                <td class="text-center"><a class="btn btn-primary btn-large" href={{path('usuario_editardatos', {'id': user.id})}}>Modificar Datos</a></td>
+                                <td class="text-center"><a class="btn btn-success btn-large" href={{path('usuario_editarpass', {'id': user.id})}}>Restablecer Contraseña</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                </table> 
+                {% endif %}       
+        </div>
+        <div class="col-md-4">  
+
+        </div>
+    </div>
+
+
+    </div>
+{% endblock %}

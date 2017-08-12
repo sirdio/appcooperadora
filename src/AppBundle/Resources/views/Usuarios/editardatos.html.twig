@@ -1,0 +1,105 @@
+{% extends '::base1.html.twig' %}
+{% block titel %}Gestión de Usuarios{% endblock %}
+{% block contenido %}
+	<div class="container-fluid"> 
+		<div class="row">
+			<div class="col-md-12">
+			<nav class="navbar navbar-inverse" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+					</button> 
+				</div>
+				
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href={{path('usuario_gestion')}}>Volver</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+
+
+
+			</div>
+		</div>
+
+	<div class="row">
+		<div class="col-md-4">
+
+		</div>
+		<div class="col-md-4">
+		
+				<form role="form" action="{{ path('usuario_update',{'id': usuario.id })}}" method="post" >
+					<fieldset>
+						<legend>Modificar Datos de Usuario</legend>
+
+						{% for message in app.session.flashbag().get('status') %}
+							<div class="alert alert-success">{{message}}</div>
+						{% endfor %}
+
+						{{form_errors(edit_form)}}
+						<div class="form-group">
+							{{form_label(edit_form.dni, 'D.N.I.:')}}
+                			{{form_errors(edit_form.dni)}}  
+                			{{form_widget(edit_form.dni)}}
+                			<div id="msjerror5"></div>
+						</div>
+						<div class="form-group">	
+							{{form_label(edit_form.apellido, 'Apellido:')}}
+	                		{{form_errors(edit_form.apellido)}}  
+	                		{{form_widget(edit_form.apellido)}}
+						</div>
+						<div class="form-group">
+							{{form_label(edit_form.nombre, 'Nombre:')}}
+	                		{{form_errors(edit_form.nombre)}}  
+	                		{{form_widget(edit_form.nombre)}}
+						</div>
+						<div class="form-group">
+							{{form_label(edit_form.email, 'Email:')}}
+	                		{{form_errors(edit_form.email)}}  
+	                		{{form_widget(edit_form.email)}}
+	                		<div id="msjerror4"></div>
+						</div>
+						<div class="form-group">
+							{{form_label(edit_form.telefono, 'Teléfono:')}}
+	                		{{form_errors(edit_form.telefono)}}  
+	                		{{form_widget(edit_form.telefono)}}   
+						</div>
+						<div class="form-group">
+                			{{form_rest(edit_form)}}
+                		</div>
+                	</fieldset>
+				</form>		       		                      				
+		</div>
+		<div class="col-md-4">
+
+		</div>
+	</div>
+
+
+	</div>
+{% endblock %}
+{% block script %}
+	<script src={{asset('public/js/scripts.js')}}></script>
+<script type="text/javascript">
+	edituser = {{usuario.id}};
+	$(document).ready(function(){      
+	    jQuery(".form_email").change(function() {
+	            correo = jQuery(".form_email").val();           
+				var url2 = "{{ path('usuario_editCcorreo', {'correo': 'correo','id': 'id'}) }}"; 
+	            url2 = url2.replace("correo", correo);
+	            url2 = url2.replace("id", edituser);
+	            $('#msjerror4').load(url2);                    
+	    });    	
+	    jQuery(".form_dni").change(function() {
+	            docu = jQuery(".form_dni").val();           
+				var url2 = "{{ path('usuario_editCdni', {'dni': 'dni','id': 'id'}) }}"; 
+	            url2 = url2.replace("dni", docu);
+	            url2 = url2.replace("id", edituser);
+	            $('#msjerror5').load(url2);                    
+	    });	    
+	});
+</script>
+{% endblock %}

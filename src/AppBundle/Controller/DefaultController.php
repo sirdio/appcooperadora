@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
+
     /**
      * @Route("/", name="homepage")
      */
@@ -18,4 +19,14 @@ class DefaultController extends Controller
             'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
         ));
     }
+
 }
+
+        
+
+
+
+
+
+
+

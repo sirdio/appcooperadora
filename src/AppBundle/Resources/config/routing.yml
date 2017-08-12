@@ -24,23 +24,37 @@ usuario_principalu:
   path: /usuario/inicio
   defaults: {_controller: AppBundle:Usuario:PrincipalU}
 
-
 usuario_gestion:
-  path: /administrador/gestionusuarios
+  path: /administrador/gestionususuarios
   defaults: {_controller: AppBundle:Usuario:GestionU}
 
+usuario_listar:
+  path: /administrador/listarusuarios
+  defaults: {_controller: AppBundle:Usuario:ListarU}  
 
-##usaurio_sociob:
-##  path: /sociob
-##  defaults: {_controller: AppBundle:Usuario:PrincipalSocioB}
+usuario_editardatos:
+  path: /administrador/editardatosusuario/{id}
+  defaults: {_controller: AppBundle:Usuario:EditarDatos} 
 
-##usuario_sociop:
-##  path: /sociop
-##  defaults: {_controller: AppBundle:Usuario:PrincipalSocioP}
-  
-##suario_administrador:
-##  path: /admin
-##  defaults: {_controller: AppBundle:Usuario:PrincipalAdministrador}
+usuario_update:
+  path: /admin/actualizardatos/{id}
+  defaults: {_controller: AppBundle:Usuario:ActualizarDatos}
+
+usuario_updatePass:
+  path: /admin/restablecercontraseña/{id}
+  defaults: {_controller: AppBundle:Usuario:ModificarPasword}
+
+usuario_editarpass:
+  path: /administrador/editarpassusuario/{id}
+  defaults: {_controller: AppBundle:Usuario:EditarPass} 
+
+usuario_editCcorreo:
+  path: /administrador/edit/consultaremail/{correo}/{id}
+  defaults: {_controller: AppBundle:Usuario:ConsultarEditEmail}
+
+usuario_editCdni:
+  path: /administrador/editar/consultardocumento/{dni}/{id}
+  defaults: {_controller: AppBundle:Usuario:ConsultarEditDni}
 
 usuario_alta:
   path: /administrador/altauduario
@@ -82,6 +96,10 @@ reporte_generara:
 operacion_Reportexf:
   path: /administrador/consulta
   defaults: {_controller: AppBundle:Operacion:ConsultarOperaciones}
+
+ver_xml:
+  path: /administrador/verxml
+  defaults: { _controller: AppBundle:Operacion:VerXml}  
 
 ###########################################################
 ######################rutas usuario########################

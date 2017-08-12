@@ -5,6 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\fpdf\fpdf;
 use AppBundle\Entity\Usuario;
 use AppBundle\Form\UsuarioType;
+use AppBundle\Form\UsuarioEditType;
+use AppBundle\Form\PassType;
 use Symfony\Component\Core\Authorization\AuthorizationChecker;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -59,6 +61,54 @@ class UsuarioController extends Controller
         return $this->render('AppBundle:Usuarios:gestionusuarios.html.twig');
     }
 
+    public function ListarUAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $usuario_repo = $em->getRepository('AppBundle:Usuario');
+        $usuario = $usuario_repo->findAll();
+        if(!$usuario){
+            $status = "No existen usuarios registrados.";
+        }else{
+            $status = "Lista de usuarios registrados.";
+        }
+        $this->sesion->getFlashBag()->add("status", $status);
+        return $this->render('AppBundle:Usuarios:listarusuarios.html.twig',
+            array('usuario'=>$usuario));
+    }
+
+    public function EditarDatosAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $usuario_repo = $em->getRepository('AppBundle:Usuario');
+        $usuario = $usuario_repo->findOneBy(array('id'=>$id));
+        if (count($usuario)!= 0) {
+            $editform = $this->createForm(UsuarioEditType::class, $usuario);
+            return $this->render('AppBundle:Usuarios:editardatos.html.twig',
+            array('edit_form' => $editform->createView(), 'usuario'=>$usuario
+                ));            
+        } else {
+            $status = "Se produjo un error al intentar recuperar los datos para su modificación.";
+            $this->sesion->getFlashBag()->add("status", $status);
+            return $this->redirectToRoute('usuario_listar');            
+        }
+    }
+
+    public function EditarPassAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $usuario_repo = $em->getRepository('AppBundle:Usuario');
+        $usuario = $usuario_repo->findOneBy(array('id'=>$id));
+        if (count($usuario)!= 0) {
+            $editform = $this->createForm(PassType::class, $usuario);
+            return $this->render('AppBundle:Usuarios:editarpassword.html.twig',
+            array('edit_form' => $editform->createView(), 'usuario'=>$usuario
+                ));            
+        } else {
+            $status = "Se produjo un error al intentar recuperar los datos para su modificación.";
+            $this->sesion->getFlashBag()->add("status", $status);
+            return $this->redirectToRoute('usuario_listar');            
+        }
+    }
 
     public function FormularioAltaAction(Request $request)
     {
@@ -153,7 +203,6 @@ class UsuarioController extends Controller
         return $this->render('AppBundle:Usuarios:mensaje1.html.twig',
             array('alert1' => $alert1, 'estado'=>$estado
                 ));
-
     }
 
     public function ConsultarDniAction($dni)
@@ -171,6 +220,123 @@ class UsuarioController extends Controller
         return $this->render('AppBundle:Usuarios:mensaje1.html.twig',
             array('alert1' => $alert1, 'estado'=>$estado
                 ));
-
     }
+
+    public function ConsultarEditEmailAction($correo, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $usuario_repo = $em->getRepository("AppBundle:Usuario");
+        $usuario = $usuario_repo->findOneBy(array('email' => $correo));
+        $userEdit = $usuario_repo->findOneBy(array('id' => $id));
+        if (count($usuario) == 1) {
+            if ($usuario->getEmail() == $userEdit->getEmail()) {
+                $estado = 0;
+                $alert1 = "Email valido.";                
+            }else{
+                $estado = 1;
+                $alert1 = "El Email ingresado ya existe.'";
+            }
+        } else {
+            $estado = 0;
+            $alert1 = "Email valido.";
+        }
+        return $this->render('AppBundle:Usuarios:mensajeedit.html.twig',
+            array('alert1' => $alert1, 'estado'=>$estado
+                ));
+    }
+
+    public function ConsultarEditDniAction($dni, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $usuario_repo = $em->getRepository("AppBundle:Usuario");
+        $usuario = $usuario_repo->findOneBy(array('dni' => $dni));
+        $userEdit = $usuario_repo->findOneBy(array('id' => $id));
+        if (count($usuario) == 1) {
+            if ($usuario->getEmail() == $userEdit->getEmail()) {
+                $estado = 0;
+                $alert1 = "D.N.I. valido.";               
+            }else{
+            $estado = 1;
+            $alert1 = "El D.N.I. ingresado ya existe.";
+            }            
+        } else {
+            $estado = 0;
+            $alert1 = "D.N.I. valido.";
+        }
+        return $this->render('AppBundle:Usuarios:mensajeedit.html.twig',
+            array('alert1' => $alert1, 'estado'=>$estado
+                ));
+    }
+
+    public function ActualizarDatosAction(Request $request, $id)
+    { 
+        $em = $this->getDoctrine()->getManager();
+        $usuario_repo = $em->getRepository("AppBundle:Usuario");
+        $usuario = $usuario_repo->findOneBy(array('id'=>$id));
+        if (count($usuario)!= 0) {
+            $editform = $this->createForm(UsuarioEditType::class, $usuario);
+            $editform->handleRequest($request);
+            if ($editform->isValid()) {
+                $usuario->setDni($editform->get("dni")->getData());
+                $usuario->setNombre($editform->get("nombre")->getData());
+                $usuario->setApellido($editform->get("apellido")->getData());
+                $usuario->setEmail($editform->get("email")->getData());
+                $usuario->setTelefono($editform->get("telefono")->getData());
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($usuario);
+                $flush = $em->flush();
+                if ($flush == null) {
+                    $status = "Los datos del usuario se modificaron correctamente.";                    
+                } else {
+                    $status = "Los datos del usuario no se ha modificado con exito.";
+                }
+                $this->sesion->getFlashBag()->add("status", $status);
+                return $this->redirectToRoute('usuario_listar');                
+            } else {
+                $status = "Se produjo un error al intentar Actualizar los datos.";
+                $this->sesion->getFlashBag()->add("status", $status);                
+                return $this->render('AppBundle:Usuarios:editardatos.html.twig',
+                array('edit_form' => $editform->createView(), 'usuario'=>$usuario
+                ));                 
+            }
+        } else {
+            $status = "Se produjo un error al intentar Actualizar los datos.";
+            $this->sesion->getFlashBag()->add("status", $status);
+            return $this->redirectToRoute('usuario_listar');
+        }        
+    }
+
+    public function ModificarPaswordAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $usuario_repo = $em->getRepository("AppBundle:Usuario");
+        $usuario = $usuario_repo->findOneBy(array('id'=>$id));
+        $editform = $this->createForm(PassType::class, $usuario);
+        $editform->handleRequest($request);
+        if ($editform->isSubmitted()) { 
+            if ($editform->isValid()) {
+                $factory = $this->get('security.encoder_factory');
+                $encader = $factory->getEncoder($usuario);
+                $password = $encader->encodePassword($editform->get("password")->getData(), $usuario->getSalt());
+                $usuario->setPassword($password);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($usuario);
+                $flush = $em->flush();
+                if ($flush == null) {
+                    $status = "La contraseña se ha modificado con exito.";
+                    $this->sesion->getFlashBag()->add("status", $status);
+                    return $this->redirectToRoute('usuario_listar');           
+                } else {
+                    $status = "La contraseña no se ha modificado.";
+                }                
+            } else {
+                $status = "La contraseña no se ha modificado.";
+            }
+            $this->sesion->getFlashBag()->add("status", $status);
+        } 
+        return $this->render('AppBundle:Usuarios:editarpassword.html.twig',
+            array('edit_form' => $editform->createView(), 'usuario'=>$usuario
+                ));        
+    } 
+
 }
